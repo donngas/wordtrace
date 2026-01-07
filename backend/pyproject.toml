@@ -1,7 +1,29 @@
 [project]
 name = "backend"
 version = "0.1.0"
-description = "Add your description here"
+description = "WordTrace backend - News keyword analysis and co-occurrence network"
 readme = "README.md"
-requires-python = ">=3.10"
-dependencies = []
+requires-python = ">=3.12"
+dependencies = [
+    # API
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    
+    # HTTP
+    "httpx>=0.28.0",
+    
+    # News
+    "newspaper4k>=0.9.0",
+    "feedparser>=6.0.0",
+    
+    # Database
+    "neo4j>=5.26.0",
+    
+    # Embeddings (Gemini API)
+    "google-genai>=1.0.0",
+    "numpy>=2.0.0",
+    
+    # Utilities
+    "pydantic>=2.10.0",
+    "python-dotenv>=1.0.0",
+]

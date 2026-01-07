@@ -1,5 +1,7 @@
+# Hidden files
 .*
 !.gitignore
+!.env.example
 
 # Python related
 __pycache__/
