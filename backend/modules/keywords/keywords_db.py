@@ -9,11 +9,10 @@ import json
 import uuid
 from pathlib import Path
 from contextlib import contextmanager
-from dataclasses import dataclass
+from pydantic import BaseModel
 
 
-@dataclass
-class StoredKeyword:
+class StoredKeyword(BaseModel):
     """A keyword stored in the database."""
     id: str
     canonical_name: str
