@@ -8,15 +8,11 @@ and handles canonicalization of new keywords.
 from pydantic import BaseModel
 
 from modules.llm.embeddings import EmbeddingsClient, find_most_similar
-from modules.llm.extractor import ExtractedKeyword
-from modules.keywords.keywords_db import KeywordsDatabase, StoredKeyword
+from modules.keywords.keywords_db import KeywordsDatabase
+from common.schema import ExtractedKeyword, StoredKeyword, DeduplicationResult
 
 
-class DeduplicationResult(BaseModel):
-    """Result of keyword deduplication."""
-    keyword: StoredKeyword
-    is_new: bool
-    matched_similarity: float | None = None
+
 
 
 class KeywordDeduplicator:

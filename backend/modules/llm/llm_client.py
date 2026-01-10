@@ -5,8 +5,9 @@ Uses Gemini 2.5 Flash via OpenRouter for keyword extraction and article categori
 """
 
 from openai import AsyncOpenAI
-from pydantic import BaseModel
 from typing import Any
+
+from common.schema import Message
 
 
 class OpenRouterClient:
@@ -106,10 +107,7 @@ class OpenRouterClient:
         return content or ""
 
 
-class Message(BaseModel):
-    """Chat message model."""
-    role: str
-    content: str
+
 
 
 def create_messages(system: str, user: str) -> list[dict[str, str]]:

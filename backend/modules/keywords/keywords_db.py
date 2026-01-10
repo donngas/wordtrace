@@ -11,15 +11,7 @@ from pathlib import Path
 from contextlib import contextmanager
 from pydantic import BaseModel
 
-
-class StoredKeyword(BaseModel):
-    """A keyword stored in the database."""
-    id: str
-    canonical_name: str
-    keyword_type: str  # "entity" or "concept"
-    category: str
-    embedding: list[float]
-    aliases: list[str]
+from common.schema import StoredKeyword
 
 
 class KeywordsDatabase:

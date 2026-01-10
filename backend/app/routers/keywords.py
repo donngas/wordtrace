@@ -7,24 +7,13 @@ Endpoints for keyword extraction and testing.
 import os
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from common.schema import ExtractRequest, ExtractResponse
 
 from modules.llm.llm_client import OpenRouterClient
 from modules.llm.extractor import KeywordExtractor, ExtractionResult
 
 
 router = APIRouter(prefix="/keywords", tags=["keywords"])
-
-
-class ExtractRequest(BaseModel):
-    """Request body for keyword extraction."""
-    title: str
-    content: str
-
-
-class ExtractResponse(BaseModel):
-    """Response for keyword extraction."""
-    article_category: str
-    keywords: list[dict]
 
 
 @router.post("/extract", response_model=ExtractResponse)
