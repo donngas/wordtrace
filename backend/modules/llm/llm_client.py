@@ -4,7 +4,7 @@ OpenRouter API client for LLM interactions.
 Uses Gemini 2.5 Flash via OpenRouter for keyword extraction and article categorization.
 """
 
-import httpx
+from openai import AsyncOpenAI
 from pydantic import BaseModel
 from typing import Any
 
@@ -13,7 +13,7 @@ class OpenRouterClient:
     """Async client for OpenRouter API."""
     
     BASE_URL = "https://openrouter.ai/api/v1"
-    DEFAULT_MODEL = "google/gemini-2.5-flash-preview"
+    DEFAULT_MODEL = "google/gemini-2.5-flash-lite-preview-09-2025"
     
     def __init__(self, api_key: str, model: str | None = None):
         """
@@ -25,26 +25,14 @@ class OpenRouterClient:
         """
         self.api_key = api_key
         self.model = model or self.DEFAULT_MODEL
-        self._client: httpx.AsyncClient | None = None
-    
-    async def _get_client(self) -> httpx.AsyncClient:
-        """Get or create the HTTP client."""
-        if self._client is None:
-            self._client = httpx.AsyncClient(
-                base_url=self.BASE_URL,
-                headers={
-                    "Authorization": f"Bearer {self.api_key}",
-                    "Content-Type": "application/json",
-                },
-                timeout=60.0,
-            )
-        return self._client
+        self._client = AsyncOpenAI(
+            api_key=api_key,
+            base_url=self.BASE_URL,
+        )
     
     async def close(self) -> None:
-        """Close the HTTP client."""
-        if self._client is not None:
-            await self._client.aclose()
-            self._client = None
+        """Close the client."""
+        await self._client.close()
     
     async def chat_completion(
         self,
@@ -65,9 +53,11 @@ class OpenRouterClient:
         Returns:
             The API response as a dict
         """
-        client = await self._get_client()
+        # Convert response_format for OpenAI SDK if needed
+        # OpenAI SDK expects just the dict usually, but let's pass it through
+        # Note: OpenRouter supports OpenAI's response_format
         
-        payload: dict[str, Any] = {
+        kwargs = {
             "model": self.model,
             "messages": messages,
             "temperature": temperature,
@@ -75,12 +65,14 @@ class OpenRouterClient:
         }
         
         if response_format:
-            payload["response_format"] = response_format
+            kwargs["response_format"] = response_format
+            
+        response = await self._client.chat.completions.create(**kwargs)
         
-        response = await client.post("/chat/completions", json=payload)
-        response.raise_for_status()
-        
-        return response.json()
+        # Convert to dict to match previous return type style exactly or return object?
+        # The previous code returned `response.json()` which is a dict.
+        # OpenAI SDK returns a Pydantic model. We should convert it to dict for compatibility.
+        return response.model_dump()
     
     async def get_completion_text(
         self,
@@ -99,13 +91,19 @@ class OpenRouterClient:
         Returns:
             The assistant's response text
         """
-        result = await self.chat_completion(
-            messages=messages,
-            response_format=response_format,
-            temperature=temperature,
-        )
+        kwargs = {
+            "model": self.model,
+            "messages": messages,
+            "temperature": temperature,
+        }
         
-        return result["choices"][0]["message"]["content"]
+        if response_format:
+            kwargs["response_format"] = response_format
+            
+        response = await self._client.chat.completions.create(**kwargs)
+        
+        content = response.choices[0].message.content
+        return content or ""
 
 
 class Message(BaseModel):
