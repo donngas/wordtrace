@@ -6,7 +6,6 @@ Endpoints for keyword extraction and testing.
 
 import os
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
 from common.schema import ExtractRequest, ExtractResponse
 
 from modules.llm.llm_client import OpenRouterClient

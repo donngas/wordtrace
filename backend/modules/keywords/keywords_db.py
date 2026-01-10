@@ -9,7 +9,6 @@ import json
 import uuid
 from pathlib import Path
 from contextlib import contextmanager
-from pydantic import BaseModel
 
 from common.schema import StoredKeyword
 

@@ -5,14 +5,9 @@ Matches extracted keywords against existing ones using embedding similarity,
 and handles canonicalization of new keywords.
 """
 
-from pydantic import BaseModel
-
 from modules.llm.embeddings import EmbeddingsClient, find_most_similar
 from modules.keywords.keywords_db import KeywordsDatabase
 from common.schema import ExtractedKeyword, StoredKeyword, DeduplicationResult
-
-
-
 
 
 class KeywordDeduplicator:
