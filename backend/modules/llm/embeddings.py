@@ -1,7 +1,7 @@
 """
 Gemini API embeddings client.
 
-Uses Gemini's text-embedding-004 model for keyword similarity matching.
+Uses Gemini's gemini-embedding-001 model for keyword similarity matching.
 """
 
 from google import genai
@@ -12,7 +12,7 @@ import numpy as np
 class EmbeddingsClient:
     """Client for Gemini embedding generation."""
     
-    DEFAULT_MODEL = "text-embedding-004"
+    DEFAULT_MODEL = "gemini-embedding-001"
     
     def __init__(self, api_key: str, model: str | None = None):
         """
@@ -20,7 +20,7 @@ class EmbeddingsClient:
         
         Args:
             api_key: Gemini API key
-            model: Embedding model to use (defaults to text-embedding-004)
+            model: Embedding model to use (defaults to gemini-embedding-001)
         """
         self.model = model or self.DEFAULT_MODEL
         self._client = genai.Client(api_key=api_key)
