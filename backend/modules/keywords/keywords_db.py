@@ -17,7 +17,7 @@ from common.schema import StoredKeyword
 class KeywordsDatabase:
     """SQLite-based keyword storage with embedding support."""
     
-    def __init__(self, db_path: str | Path = "keywords.db"):
+    def __init__(self, db_path: str | Path = "sqlite/keywords.db"):
         """
         Initialize the keywords database.
         
