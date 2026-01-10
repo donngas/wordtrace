@@ -76,6 +76,47 @@ class ExtractionResult(BaseModel):
     keywords: list[ExtractedKeyword]
 ```
 
+## Graph Architecture Vision
+
+### Core Philosophy: The "Big Beautiful Graph"
+
+We maintain a **Single Unified Graph** as the source of truth. Instead of fragmenting data into separate silos (e.g., separate graphs for "Sports" or "Politics"), we keep all articles and keywords in one interconnected space.
+
+**Why?** The ultimate goal is **Serendipity**. By allowing a "Politics" article and a "Technology" article to share the same "Artificial Intelligence" keyword node, we reveal hidden connections between seemingly disparate domains. This is the "Big Beautiful Graph" that grows richer over time.
+
+### Dual-Track Structure
+
+We distinguish between how data is **stored** (Backend) and how it is **experienced** (Frontend).
+
+#### 1. Backend: The Source of Truth (Persistence)
+*   **Structure**: `Article -> HAS_KEYWORD -> Keyword`
+*   **Role**: The permanent, high-fidelity archive of every acquired news piece.
+*   **Data Retention**: Articles are kept for a set meaningful period (e.g., 3 months) to ensure relevance while maintaining a rich historical context for analysis.
+
+#### 2. Frontend: The Dynamic Projection (Visualization)
+*   **Structure**: `Keyword <-> CO_OCCURS_WITH <-> Keyword`
+*   **Role**: A real-time, context-aware view generated on demand.
+*   **User Experience**: 
+    *   **Dynamic Filtering**: The user selects a context (e.g., "Last 7 Days" + "Business" Category).
+    *   **Live Projection**: The system instantly morphs the graph to show only connections meaningful within that specific slice of time and topic.
+    *   **Drill-Down**: Clicking an edge (connection) reveals the specific articles that created it, grounding the abstract web in concrete news stories.
+
+### Visual Flow
+
+```mermaid
+graph TD
+    subgraph "Backend Storage (Source)"
+        A1[Article: 'G20 Summit'] -->|HAS_KEYWORD| K1(Economics)
+        A2[Article: 'Climate Protest'] -->|HAS_KEYWORD| K1
+        A2 -->|HAS_KEYWORD| K2(Activism)
+    end
+
+    subgraph "Frontend Projection (User View)"
+        K1 <==>|CO_OCCURS_WITH| K2
+        note[User sees: 'Economics' linked to 'Activism'<br>based on shared 'Climate Protest' article]
+    end
+```
+
 ## Keyword Deduplication
 
 ### Strategy
