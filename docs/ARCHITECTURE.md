@@ -6,7 +6,7 @@ WordTrace is designed as a modular system with clear separation between:
 
 - **API Layer** (`app/`) - FastAPI routes and request handling
 - **Business Logic** (`modules/`) - Core functionality modules
-- **Storage** - SQLite (keywords)
+- **Storage** - SQLite (keywords) + Neo4j (graph)
 
 ## Component Architecture
 
