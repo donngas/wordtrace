@@ -59,10 +59,8 @@ backend/
 
 ## Testing
 
-```bash
-cd backend
-uv run pytest
-```
+- All test code shall be placed in the `backend/tests` directory
+- All test code shall be named `test_*.py`
 
 ## Code Style
 
