@@ -4,13 +4,13 @@ WordTrace FastAPI Application.
 Main entry point for the backend API.
 """
 
-import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from loguru import logger
 
 # Load environment variables
 load_dotenv()
@@ -20,10 +20,10 @@ load_dotenv()
 async def lifespan(app: FastAPI):
     """Application lifespan manager for startup/shutdown."""
     # Startup
-    print("WordTrace backend starting...")
+    logger.info("WordTrace backend starting...")
     yield
     # Shutdown
-    print("WordTrace backend shutting down...")
+    logger.info("WordTrace backend shutting down...")
 
 
 app = FastAPI(
