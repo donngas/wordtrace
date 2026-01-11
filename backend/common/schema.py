@@ -90,3 +90,28 @@ class ExtractResponse(BaseModel):
     """Response for keyword extraction."""
     article_category: str
     keywords: list[dict]
+
+
+# --- For modules/articles ---
+
+class ArticleStatus(str, Enum):
+    """Status of an article in the processing pipeline."""
+    IDENTIFIED = "IDENTIFIED"
+    RETRIEVED = "RETRIEVED"
+    ANALYSED = "ANALYSED"
+    COMPLETE = "COMPLETE"
+    DELETED = "DELETED"
+
+
+class Article(BaseModel):
+    """Article model representing an entry in the articles database."""
+    id: str  # Hash of the URL
+    url: str
+    source_id: str
+    title: str | None = None
+    published_at: str | None = None  # ISO format datetime
+    full_text: str | None = None
+    keywords: list[dict] | None = None  # JSON backup
+    status: ArticleStatus
+    identified_at: str
+    retrieved_at: str | None = None

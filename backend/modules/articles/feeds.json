@@ -1,0 +1,10 @@
+[
+    {
+        "id": "cnn_world",
+        "url": "http://rss.cnn.com/rss/edition_world.rss"
+    },
+    {
+        "id": "bbc_world",
+        "url": "http://feeds.bbci.co.uk/news/world/rss.xml"
+    }
+]
