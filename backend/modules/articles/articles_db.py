@@ -152,5 +152,5 @@ def _row_to_article(row) -> Article:
         retrieved_at=row["retrieved_at"]
     )
 
-# Auto-initialize on module load (or we can call it explicitly in main)
-init_db()
+if __name__ == "__main__":
+    init_db()
