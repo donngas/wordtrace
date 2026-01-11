@@ -6,3 +6,4 @@ trigger: always_on
 - Use context7 when a task requires up-to-date information on latest DOCS for an external library or package.
 - Refrain from using excessive/needless emojis and numbering in comments or prints. Keep them concise, accurate, and readibly by themselves.
 - Use simple loguru methods for logging purposes.
+- CWD for python backend is /backend.

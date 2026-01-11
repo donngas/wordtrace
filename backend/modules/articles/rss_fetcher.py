@@ -6,8 +6,8 @@ from datetime import datetime
 from loguru import logger
 from typing import List, Dict
 
-from backend.common.schema import Article, ArticleStatus
-from backend.modules.articles import articles_db
+from common.schema import Article, ArticleStatus
+from modules.articles import articles_db
 
 FEEDS_FILE = os.path.join(os.path.dirname(__file__), "feeds.json")
 

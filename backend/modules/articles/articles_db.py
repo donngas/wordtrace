@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import List, Optional
 from loguru import logger
 
-from backend.common.schema import Article, ArticleStatus
+from common.schema import Article, ArticleStatus
 
 DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "sqlite", "articles.db")
 

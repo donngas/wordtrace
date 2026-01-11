@@ -3,8 +3,8 @@ from datetime import datetime
 from loguru import logger
 from newspaper import Article as NewspaperArticle
 from newspaper import Config
-from backend.common.schema import ArticleStatus
-from backend.modules.articles import articles_db
+from common.schema import ArticleStatus
+from modules.articles import articles_db
 
 # User agent to avoid 403s on some sites
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
