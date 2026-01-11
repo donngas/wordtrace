@@ -11,6 +11,7 @@ WordTrace is designed as a modular system with clear separation between:
 ## Component Architecture
 
 ```mermaid
+graph TB
     subgraph "Backend (FastAPI & Pipeline)"
         subgraph "app/"
             MAIN[main.py]
