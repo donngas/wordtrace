@@ -15,9 +15,9 @@ WordTrace acquires news articles, extracts keywords using LLM, and presents anal
 
 ### Keyword Categories
 
-| Type | Categories |
-| --- | --- |
-| **Entities** | People, Places, Organizations |
+| Type         | Categories                               |
+| ------------ | ---------------------------------------- |
+| **Entities** | People, Places, Organizations            |
 | **Concepts** | Geopolitics, Economic Crisis, Innovation |
 
 ### Article Categories
@@ -39,24 +39,15 @@ wordtrace/
 └── frontend/                   # React visualization (TBD)
 ```
 
-### Data Flow
-
-```mermaid
-graph LR
-    A[Article Text] --> B[LLM Extraction]
-    B --> C[Keyword Dedup]
-    C --> D[(SQLite)]
-```
-
 ## Tech Stack
 
-| Layer | Technology |
-| --- | --- |
-| Backend | Python 3.12+, FastAPI, uv |
-| LLM | OpenRouter API (Gemini 2.5 Flash) |
-| Embeddings | Gemini API (text-embedding-004) |
-| Keywords DB | SQLite3 |
-| Frontend | React, react-force-graph (TBD) |
+| Layer       | Technology                        |
+| ----------- | --------------------------------- |
+| Backend     | Python 3.12+, FastAPI, uv         |
+| LLM         | OpenRouter API (Gemini 2.5 Flash) |
+| Embeddings  | Gemini API (text-embedding-004)   |
+| Keywords DB | SQLite3                           |
+| Frontend    | React, react-force-graph (TBD)    |
 
 ## Quick Start
 
@@ -76,13 +67,33 @@ uv run uvicorn app.main:app --reload
 ## To Do
 
 ### On existing code
+
 - Fix: URL normalization is weak (stripping query params)
 - Fix: Date handling should be UTC-aware and ISO 8601 enforced
 - Refactor: Orchestrator leaks SQL (move update logic to articles_db)
 - Config: Externalize hardcoded values (User Agent, Model Name)
 
 ### Roadmap
+
 - Integration pipeline with Neo4j
+- Reassess OpenRouter usage for convenience (consider going all Gemini)
+  - Keep LangGraph integration in mind: for more structured and streamlined LLM usage across the application
 - Configure news acquisition in detail, including selecting sources
 - Work on proper backend API (routers, etc.)
 - Create Frontend
+
+### Abstract ideas
+
+- Keyword elaboration
+  - Keyword window upon click
+    - AI-generated descriptions
+    - keyword-centric analysis report
+    - Hyperlink to Google search or Wikipedia page
+  - Keyword tierization: Assign tiers to keywords based on their importance
+    - Higher tier keywords get generated descriptions with LLM etc.
+    - Tier gets updated based on updated usage of the keyword in articles
+    - Keywords can be demoted to hiatus state if not appearing in articles for a while
+  - Updating canonical names
+    - For higher tier keywords, canonical names get reconsidered (keep previous vs update) by LLM
+    - Possibly based on Google search metrics or Wikipedia page title
+  - Keep our own metrics for keyword trends
