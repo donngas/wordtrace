@@ -10,15 +10,23 @@ WordTrace is designed as a modular system with clear separation between:
 
 ## Component Architecture
 
-```mermaid
-graph TB
-    subgraph "Backend (FastAPI)"
+    subgraph "Backend (FastAPI & Pipeline)"
         subgraph "app/"
             MAIN[main.py]
             R1[routers/keywords.py]
         end
 
         subgraph "modules/"
+            subgraph "pipeline/"
+                ORCH[orchestrator.py]
+            end
+
+            subgraph "articles/"
+                RSS[rss_fetcher.py]
+                PB[paperboy.py]
+                ADB[articles_db.py]
+            end
+
             subgraph "llm/"
                 LLM1[llm_client.py]
                 LLM2[extractor.py]
@@ -33,20 +41,30 @@ graph TB
 
     subgraph "Storage"
         SQLITE[(SQLite)]
+        NEO4J[("Neo4j (WIP)")]
     end
 
     subgraph "External"
         OPENROUTER[OpenRouter API]
+        RSS_FEEDS((RSS Feeds))
     end
 
-    MAIN --> R1
-    R1 --> KW1 & KW2
-
+    RSS_FEEDS --> RSS
+    RSS --> ADB
+    PB --> ADB
+    ORCH --> RSS & PB
+    ORCH --> LLM2
+    ADB --> ORCH
+    
     LLM2 --> LLM1
     LLM1 --> OPENROUTER
+    
+    ORCH --> KW2
     KW2 --> KW1
     KW1 --> SQLITE
-```
+    
+    MAIN --> R1
+    R1 --> KW1 & KW2
 
 ## Data Models
 

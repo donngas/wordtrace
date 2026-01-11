@@ -30,11 +30,12 @@ Politics, Business, Sports, Entertainment, Technology, Health & Science, World
 wordtrace/
 ├── backend/
 │   ├── app/                    # FastAPI application
-│   │   ├── main.py             # App entry point
-│   │   └── routers/            # API route handlers
 │   └── modules/                # Core business logic
-│       ├── llm/                # Keyword extraction
-│       └── keywords/           # Deduplication + SQLite
+│       ├── articles/           # RSS & Retrieval
+│       ├── pipeline/           # Orchestration
+│       ├── llm/                # Extraction
+│       ├── keywords/           # Deduplication
+│       └── graph/              # Neo4j Client (WIP)
 └── frontend/                   # React visualization (TBD)
 ```
 
@@ -72,14 +73,16 @@ uv run uvicorn app.main:app --reload
 - [Architecture](docs/ARCHITECTURE.md) - System design details
 - [Development](docs/DEVELOPMENT.md) - Setup and contribution guide
 
-## License
-
-MIT
-
 ## To Do
 
-- Plan and implement graph storage architecture + integration with articles
-- Set up docker environment for the repository, especially for Neo4j
-- Implement News Acquisition module (rss, newspaper4k)
-- Work on proper backend (routers, etc.)
+### On existing code
+- Fix: URL normalization is weak (stripping query params)
+- Fix: Date handling should be UTC-aware and ISO 8601 enforced
+- Refactor: Orchestrator leaks SQL (move update logic to articles_db)
+- Config: Externalize hardcoded values (User Agent, Model Name)
+
+### Roadmap
+- Integration pipeline with Neo4j
+- Configure news acquisition in detail, including selecting sources
+- Work on proper backend API (routers, etc.)
 - Create Frontend
